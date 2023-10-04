@@ -17,7 +17,6 @@ class Commands(Enum):
     """
     Enum class for all available commands
     """
-    LOCAL_REMOTE = "local-remote"
     PULL = "pull"
     PUSH = "push"
 
@@ -28,52 +27,18 @@ AVAILABLE_COMMANDS = [command.value for command in Commands]
 def help():
     print("\nAvailable commands: ")
     commands_help = """
-    -> local-remote - to add a local-remote
     -> push - to push to your local-remote
     -> pull - to pull from your local-remote
     """
     print(commands_help)
 
 
-def checkPath(path):
-    isValid = os.path.exists(path)
-    return isValid
-
-
-def checkGit(path):
-    isInitalized = os.path.exists(f"{path}/.git")
-    return isInitalized
-
-
-def setLocalRemotePath(path):
-    with open("jit.config.json", "r") as f:
-        config = json.load(f)
-
-    config['local-remote-path'] = path
-
-    with open("jit.config.json", "w") as f:
-        json.dump(config, f, indent=4)
-
-
 def getLocalRemotePath():
-    with open("jit.config.json", "r") as f:
-        config = json.load(f)
-    return config["local-remote-path"]
-
-
-def setupLocalRemote():
-    if len(args) == 2:
-        print("usage: jit local-remote <path>")
-        print("error: the following arguments are required: path")
-    else:
-        path = args[2]
-        if checkPath(path):
-            if checkGit(path):
-                setLocalRemotePath(path)
-            else:
-                print("error: the path you entered is not a git repository")
-        else:
-            print("error: the path you entered does not exist")
+    remote_path_command = "git remote -v"
+    output = sp.getoutput(remote_path_command)
+    line_1 = output.splitlines()
+    path = line_1[0].split("\t")[1].split(" ")[0]
+    return path
 
 
 def switchBranch(branch, path):
@@ -126,9 +91,7 @@ def parseArgs():
             print(f"error: Unknown command '{args[1]}'")
             help()
         else:
-            if command == Commands.LOCAL_REMOTE.value:
-                setupLocalRemote()
-            elif command == Commands.PUSH.value:
+            if command == Commands.PUSH.value:
                 setupPush()
             elif command == Commands.PULL.value:
                 setupPull()
