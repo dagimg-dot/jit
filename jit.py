@@ -38,10 +38,10 @@ def setupLocalRemote():
         print("usage: jit local-remote <path>")
         print("error: the following arguments are required: path")
 
-
 def parseArgs():
     if len(args) == 1:
         print("JIT - One step away to collaborate with others offline using git")
+        help()
     else:
         if args[1] not in ARG1:
             print(f"error: Unknown command '{args[1]}'")
