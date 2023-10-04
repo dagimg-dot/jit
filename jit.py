@@ -38,13 +38,24 @@ def checkPath(path):
     return isValid
 
 
+def checkGit(path):
+    isInitalized = os.path.exists(f"{path}/.git")
+    return isInitalized
+
+
 def setupLocalRemote():
     if len(args) == 2:
         print("usage: jit local-remote <path>")
         print("error: the following arguments are required: path")
     else:
         path = args[2]
-        print(checkPath(path))
+        if checkPath(path):
+            if checkGit(path):
+                pass
+            else:
+                print("error: the path you entered is not a git repository")
+        else:
+            print("error: the path you entered does not exist")
 
 
 def parseArgs():
