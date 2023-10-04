@@ -82,9 +82,16 @@ def switchBranch(branch, path):
     sp.getoutput(switch_command)
 
 
-def push():
+def push(current_dir):
     push_command = 'git push'
+    os.chdir(current_dir)
     sp.check_output(push_command, shell=True)
+
+
+def pull(current_dir):
+    pull_command = 'git pull'
+    os.chdir(current_dir)
+    sp.check_output(pull_command, shell=True)
 
 
 def setupPush():
@@ -92,8 +99,20 @@ def setupPush():
     if path == "":
         print("error: local-remote repository not setup")
     else:
+        current_dir = os.getcwd()
         switchBranch("master", path)
-        push()
+        push(current_dir)
+        switchBranch("main", path)
+
+
+def setupPull():
+    path = getLocalRemotePath()
+    if path == "":
+        print("error: local-remote repository not setup")
+    else:
+        current_dir = os.getcwd()
+        switchBranch("master", path)
+        pull(current_dir)
         switchBranch("main", path)
 
 
@@ -111,6 +130,8 @@ def parseArgs():
                 setupLocalRemote()
             elif command == Commands.PUSH.value:
                 setupPush()
+            elif command == Commands.PULL.value:
+                setupPull()
 
 
 parseArgs()
