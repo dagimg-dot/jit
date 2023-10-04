@@ -22,12 +22,23 @@ class Commands(Enum):
 ARG1 = [command.value for command in Commands]
 
 
+def help():
+    print("\nAvailable commands: ")
+    commands_help = """
+    -> local-remote - to add a local-remote
+    -> push - to push to your local-remote
+    -> pull - to pull from your local-remote
+    """
+    print(commands_help)
+
+
 def parseArgs():
     if len(args) == 1:
         print("JIT - One step away to collaborate with others offline using git")
     else:
         if args[1] not in ARG1:
             print(f"Unknown command '{args[1]}'")
+            help()
 
 
 parseArgs()
