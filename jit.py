@@ -3,6 +3,7 @@ This is a script to work with git offline and collaborate with others.
 By - Dagim G. Astatkie (dagimg-dot)
 Wednesday, October 04 2023
 """
+import json
 import sys
 import enum
 import os
@@ -43,6 +44,16 @@ def checkGit(path):
     return isInitalized
 
 
+def setLocalRemotePath(path):
+    with open("jit.config.json", "r") as f:
+        config = json.load(f)
+
+    config['local-remote-path'] = path
+
+    with open("jit.config.json", "w") as f:
+        json.dump(config, f, indent=4)
+
+
 def setupLocalRemote():
     if len(args) == 2:
         print("usage: jit local-remote <path>")
@@ -51,7 +62,7 @@ def setupLocalRemote():
         path = args[2]
         if checkPath(path):
             if checkGit(path):
-                pass
+                setLocalRemotePath(path)
             else:
                 print("error: the path you entered is not a git repository")
         else:
