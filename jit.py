@@ -38,7 +38,7 @@ def getLocalRemotePath():
     output = sp.getoutput(remote_path_command)
     if output == "":
         return ""
-    elif output.find("not a git repository"):
+    elif output.find("not a git repository") == 1:
         print("error: not a git repository")
         exit(0)
     else:
