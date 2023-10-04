@@ -7,6 +7,7 @@ import json
 import sys
 import enum
 import os
+import subprocess as sp
 
 args = sys.argv
 Enum = enum.Enum
@@ -54,6 +55,12 @@ def setLocalRemotePath(path):
         json.dump(config, f, indent=4)
 
 
+def getLocalRemotePath():
+    with open("jit.config.json", "r") as f:
+        config = json.load(f)
+    return config["local-remote-path"]
+
+
 def setupLocalRemote():
     if len(args) == 2:
         print("usage: jit local-remote <path>")
@@ -69,6 +76,27 @@ def setupLocalRemote():
             print("error: the path you entered does not exist")
 
 
+def switchBranch(branch, path):
+    switch_command = f"git switch {branch}"
+    os.chdir(path)
+    sp.getoutput(switch_command)
+
+
+def push():
+    push_command = 'git push'
+    sp.check_output(push_command, shell=True)
+
+
+def setupPush():
+    path = getLocalRemotePath()
+    if path == "":
+        print("error: local-remote repository not setup")
+    else:
+        switchBranch("master", path)
+        push()
+        switchBranch("main", path)
+
+
 def parseArgs():
     if len(args) == 1:
         print("JIT - One step away to collaborate with others offline using git")
@@ -81,6 +109,8 @@ def parseArgs():
         else:
             if command == Commands.LOCAL_REMOTE.value:
                 setupLocalRemote()
+            elif command == Commands.PUSH.value:
+                setupPush()
 
 
 parseArgs()
