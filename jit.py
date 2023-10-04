@@ -36,9 +36,15 @@ def help():
 def getLocalRemotePath():
     remote_path_command = "git remote -v"
     output = sp.getoutput(remote_path_command)
-    line_1 = output.splitlines()
-    path = line_1[0].split("\t")[1].split(" ")[0]
-    return path
+    if output == "":
+        return ""
+    elif output.find("not a git repository"):
+        print("error: not a git repository")
+        exit(0)
+    else:
+        line_1 = output.splitlines()
+        path = line_1[0].split("\t")[1].split(" ")[0]
+        return path
 
 
 def switchBranch(branch, path):
