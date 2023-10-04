@@ -20,7 +20,7 @@ class Commands(Enum):
     PUSH = "push"
 
 
-ARG1 = [command.value for command in Commands]
+AVAILABLE_COMMANDS = [command.value for command in Commands]
 
 
 def help():
@@ -38,16 +38,18 @@ def setupLocalRemote():
         print("usage: jit local-remote <path>")
         print("error: the following arguments are required: path")
 
+
 def parseArgs():
     if len(args) == 1:
         print("JIT - One step away to collaborate with others offline using git")
         help()
     else:
-        if args[1] not in ARG1:
+        command = args[1]
+        if command not in AVAILABLE_COMMANDS:
             print(f"error: Unknown command '{args[1]}'")
             help()
         else:
-            if args[1] == Commands.LOCAL_REMOTE.value:
+            if command == Commands.LOCAL_REMOTE.value:
                 setupLocalRemote()
 
 
