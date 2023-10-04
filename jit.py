@@ -33,10 +33,18 @@ def help():
     print(commands_help)
 
 
+def checkPath(path):
+    isValid = os.path.exists(path)
+    return isValid
+
+
 def setupLocalRemote():
     if len(args) == 2:
         print("usage: jit local-remote <path>")
         print("error: the following arguments are required: path")
+    else:
+        path = args[2]
+        print(checkPath(path))
 
 
 def parseArgs():
