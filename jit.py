@@ -5,6 +5,7 @@ Wednesday, October 04 2023
 """
 import sys
 import enum
+import os
 
 args = sys.argv
 Enum = enum.Enum
@@ -32,13 +33,22 @@ def help():
     print(commands_help)
 
 
+def setupLocalRemote():
+    if len(args) == 2:
+        print("usage: jit local-remote <path>")
+        print("error: the following arguments are required: path")
+
+
 def parseArgs():
     if len(args) == 1:
         print("JIT - One step away to collaborate with others offline using git")
     else:
         if args[1] not in ARG1:
-            print(f"Unknown command '{args[1]}'")
+            print(f"error: Unknown command '{args[1]}'")
             help()
+        else:
+            if args[1] == Commands.LOCAL_REMOTE.value:
+                setupLocalRemote()
 
 
 parseArgs()
