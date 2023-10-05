@@ -99,7 +99,7 @@ def share(current_dir, command):
 
 def setupSharing(share_command):
     """
-    Setups sharing (pulling and pushing)
+    Setup sharing (pulling and pushing)
     """
     path = getLocalRemotePath()
     if path == "":
