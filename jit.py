@@ -103,8 +103,7 @@ def share(current_dir, command):
     """
     try:
         os.chdir(current_dir)
-        output = sp.getoutput(command)
-        print(output)
+        sp.call(command)
     except:
         print("")
 
