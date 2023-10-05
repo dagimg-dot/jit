@@ -48,43 +48,45 @@ def getLocalRemotePath():
 
 
 def switchBranch(branch, path):
-    switch_command = f"git switch {branch}"
-    os.chdir(path)
-    sp.getoutput(switch_command)
+    try:
+        switch_command = f"git switch {branch}"
+        os.chdir(path)
+        sp.getoutput(switch_command)
+    except:
+        print("error: the remote drive is not connected")
+        exit(0)
 
 
 def push(current_dir):
-    push_command = 'git push'
-    os.chdir(current_dir)
-    sp.check_output(push_command, shell=True)
+    try:
+        push_command = 'git push'
+        os.chdir(current_dir)
+        sp.check_output(push_command, shell=True)
+    except:
+        print("")
 
 
 def pull(current_dir):
-    pull_command = 'git pull'
-    os.chdir(current_dir)
-    sp.check_output(pull_command, shell=True)
+    try:
+        pull_command = 'git pull'
+        os.chdir(current_dir)
+        sp.check_output(pull_command, shell=True)
+    except:
+        print("")
 
 
-def setupPush():
+def setupSharing(share):
     path = getLocalRemotePath()
     if path == "":
         print("error: local-remote repository not setup")
     else:
         current_dir = os.getcwd()
-        switchBranch("master", path)
-        push(current_dir)
-        switchBranch("main", path)
-
-
-def setupPull():
-    path = getLocalRemotePath()
-    if path == "":
-        print("error: local-remote repository not setup")
-    else:
-        current_dir = os.getcwd()
-        switchBranch("master", path)
-        pull(current_dir)
-        switchBranch("main", path)
+        try:
+            switchBranch("master", path)
+            share(current_dir)
+            switchBranch("main", path)
+        except:
+            print("error: read the git error stack above")
 
 
 def parseArgs():
@@ -98,9 +100,9 @@ def parseArgs():
             help()
         else:
             if command == Commands.PUSH.value:
-                setupPush()
+                setupSharing(pull)
             elif command == Commands.PULL.value:
-                setupPull()
+                setupSharing(push)
 
 
 parseArgs()
