@@ -54,6 +54,9 @@ def getLocalRemotePath():
 
 
 def changeDir(path):
+    """
+    Changes directory to the path provided
+    """
     try:
         os.chdir(path)
     except:
