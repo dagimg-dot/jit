@@ -57,25 +57,15 @@ def switchBranch(branch, path):
         exit(0)
 
 
-def push(current_dir):
+def share(current_dir, command):
     try:
-        push_command = 'git push'
         os.chdir(current_dir)
-        sp.check_output(push_command, shell=True)
+        sp.check_output(command, shell=True)
     except:
         print("")
 
 
-def pull(current_dir):
-    try:
-        pull_command = 'git pull'
-        os.chdir(current_dir)
-        sp.check_output(pull_command, shell=True)
-    except:
-        print("")
-
-
-def setupSharing(share):
+def setupSharing(share_command):
     path = getLocalRemotePath()
     if path == "":
         print("error: local-remote repository not setup")
@@ -83,7 +73,9 @@ def setupSharing(share):
         current_dir = os.getcwd()
         try:
             switchBranch("master", path)
-            share(current_dir)
+            command = f"git {share_command}"
+            # Pull or Push based on the argument passed above
+            share(current_dir, command)
             switchBranch("main", path)
         except:
             print("error: read the git error stack above")
@@ -99,10 +91,7 @@ def parseArgs():
             print(f"error: Unknown command '{args[1]}'")
             help()
         else:
-            if command == Commands.PUSH.value:
-                setupSharing(pull)
-            elif command == Commands.PULL.value:
-                setupSharing(push)
+            setupSharing(command)
 
 
 parseArgs()
