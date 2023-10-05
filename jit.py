@@ -53,6 +53,14 @@ def getLocalRemotePath():
         return path
 
 
+def changeDir(path):
+    try:
+        os.chdir(path)
+    except:
+        print("error: the remote drive is not connected")
+        exit(0)
+
+
 def createBranch(name):
     """
     Creates a new branch with the provided name
@@ -65,7 +73,7 @@ def checkBranch(path, current_dir):
     """
     Checks the branch number and create a new one that `jit` can work with
     """
-    os.chdir(path)
+    changeDir(path)
     command = 'git branch'
     branch_list = sp.getoutput(command)
     if len(branch_list.splitlines()) == 1:
@@ -79,7 +87,7 @@ def switchBranch(branch, path):
     """
     try:
         switch_command = f"git switch {branch}"
-        os.chdir(path)
+        changeDir(path)
         sp.getoutput(switch_command)
     except:
         print("error: the remote drive is not connected")
