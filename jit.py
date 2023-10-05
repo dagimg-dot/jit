@@ -47,6 +47,20 @@ def getLocalRemotePath():
         return path
 
 
+def createBranch(name):
+    command = f"git checkout -b {name}"
+    sp.getoutput(command)
+
+
+def checkBranch(path, current_dir):
+    os.chdir(path)
+    command = 'git branch'
+    branch_list = sp.getoutput(command)
+    if len(branch_list.splitlines()) == 1:
+        createBranch("master")
+        os.chdir(current_dir)
+
+
 def switchBranch(branch, path):
     try:
         switch_command = f"git switch {branch}"
@@ -71,6 +85,7 @@ def setupSharing(share_command):
         print("error: local-remote repository not setup")
     else:
         current_dir = os.getcwd()
+        checkBranch(path, current_dir)
         try:
             switchBranch("master", path)
             command = f"git {share_command}"
