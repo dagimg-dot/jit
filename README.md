@@ -4,7 +4,7 @@
 
 - ***What does it basically do*** ?
     - It lets you use a **USB drive** as a **remote storage** for your git repository. Then you and your collaborators will have a copy of the remote repo found in the USB drive on their local machine.
-    - So, you can pull and push from this/to this remote repo as if you are using github but the catch is - `It is offline`
+    - So, you can pull and push from this remote repo as if you are using github but the catch is - `It is offline`
 
 ### Prerequisites
 
