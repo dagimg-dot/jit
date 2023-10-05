@@ -25,6 +25,9 @@ AVAILABLE_COMMANDS = [command.value for command in Commands]
 
 
 def help():
+    """
+    General help that prints available commands
+    """
     print("\nAvailable commands: ")
     commands_help = """
     -> push - to push to your local-remote
@@ -34,6 +37,9 @@ def help():
 
 
 def getLocalRemotePath():
+    """
+    Returns the remote repo path if it exists
+    """
     remote_path_command = "git remote -v"
     output = sp.getoutput(remote_path_command)
     if output == "":
@@ -48,11 +54,17 @@ def getLocalRemotePath():
 
 
 def createBranch(name):
+    """
+    Creates a new branch with the provided name
+    """
     command = f"git checkout -b {name}"
     sp.getoutput(command)
 
 
 def checkBranch(path, current_dir):
+    """
+    Checks the branch number and create a new one that `jit` can work with
+    """
     os.chdir(path)
     command = 'git branch'
     branch_list = sp.getoutput(command)
@@ -62,6 +74,9 @@ def checkBranch(path, current_dir):
 
 
 def switchBranch(branch, path):
+    """
+    Switches to the provided branch in the remote repo
+    """
     try:
         switch_command = f"git switch {branch}"
         os.chdir(path)
@@ -72,6 +87,9 @@ def switchBranch(branch, path):
 
 
 def share(current_dir, command):
+    """
+    Pushes or Pulls commits to the remote repo
+    """
     try:
         os.chdir(current_dir)
         sp.check_output(command, shell=True)
@@ -80,6 +98,9 @@ def share(current_dir, command):
 
 
 def setupSharing(share_command):
+    """
+    Setups sharing (pulling and pushing)
+    """
     path = getLocalRemotePath()
     if path == "":
         print("error: local-remote repository not setup")
@@ -97,6 +118,9 @@ def setupSharing(share_command):
 
 
 def parseArgs():
+    """
+    Parse arguments passed in the command line
+    """
     if len(args) == 1:
         print("JIT - One step away to collaborate with others offline using git")
         help()
