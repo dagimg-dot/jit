@@ -44,7 +44,7 @@ def getLocalRemotePath():
     output = sp.getoutput(remote_path_command)
     if output == "":
         return ""
-    elif output.find("not a git repository") == 1:
+    elif output.find("not a git repository") != -1:
         print("error: not a git repository")
         exit(0)
     else:
@@ -55,7 +55,7 @@ def getLocalRemotePath():
 
 def changeDir(path):
     """
-    Changes directory to the path provided
+    Changes directory to the provided path
     """
     try:
         os.chdir(path)
@@ -103,7 +103,17 @@ def share(current_dir, command):
     """
     try:
         os.chdir(current_dir)
-        sp.call(command)
+        output = sp.getoutput(command)
+        if output.find("The current branch main has no upstream branch") != -1:
+            first_push_command = "git push --set-upstream origin main"
+            sp.call(first_push_command)
+        elif output.find("There is no tracking information for the current branch") != -1:
+            set_branch_command = "git branch --set-upstream-to=origin/main main"
+            first_pull_command = "git pull"
+            sp.call(set_branch_command)
+            sp.call(first_pull_command)
+        else:
+            print(output)
     except:
         print("")
 
