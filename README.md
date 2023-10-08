@@ -34,3 +34,20 @@
         ```bash
         git remote add origin <path-of-your-remote-repo-name> # which is found in the USB drive
         ```
+
+3. Copy the script to the repo you are working on
+
+    - It is recommended to create a folder called `jit-script` and put the `jit.py` script inside
+
+4. Finally `pull` and `push` like you would do with git
+
+    - The available commands are
+        - PULL
+        - PUSH
+    - This is how you would run the script file
+
+        ```python
+        python jit-scripts/jit.py pull # to pull from the remote repo
+
+        python jit-scripts/jit.py push # to push to the remote repo
+        ```
