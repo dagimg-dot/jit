@@ -9,14 +9,14 @@
     - Bruh, I don't think you have a choice here 🤣🤣.
     - But honestly, you can still track your contributions in a group project. All your commits will be saved as yours in the remote repo as it will be in github.
 
-### Prerequisites
+>> ### Prerequisites
 
 1. A flash drive (USB drive)
     - This is used as a **remote storage** that you can share with the people you are collaborating with.
 2. Basic knowledge of **git** and **how it works**. Some basic commands too 😁😁 !!
     - This is because you are going to write them and probably get errors too.
 
-### Getting Started
+>> ### Getting Started
 
 1.  Copy your local repo to a flash drive to use it as a remote repo and maybe rename it to `your-repo-name-remote`.
 
@@ -35,7 +35,7 @@
         git remote add origin <path-of-your-remote-repo-name> # which is found in the USB drive
         ```
 
-3. Copy the script to the repo you are working on
+3. Copy the script to the repo in your local machine 
 
     - It is recommended to create a folder called `jit-script` and put the `jit.py` script inside
 
@@ -47,7 +47,15 @@
     - This is how you would run the script file
 
         ```python
-        python jit-scripts/jit.py pull # to pull from the remote repo
+        python jit-script/jit.py pull # to pull from the remote repo
 
-        python jit-scripts/jit.py push # to push to the remote repo
+        python jit-script/jit.py push # to push to the remote repo
         ```
+
+>> ### Tips
+
+1. If you are using jit in a project managed by npm you can set it up in the `package.json` `scrpits` section.
+    - You can create a command called `jit` and give it a value `python jit-script/jit.py`
+    - Then you can use `npm run jit <arg>` to call the script which makes it easier for you hands.
+
+2. If the above case doesn't work for you, you can configure a bash script too !!.
