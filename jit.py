@@ -71,16 +71,41 @@ def createBranch(name):
     sp.getoutput(command)
 
 
+def getBranch(branch_list):
+    splitted = branch_list.splitlines()
+    current_branch = None
+    clean_branch_list = []
+    for branch in splitted:
+        if branch.startswith("*"):
+            current_branch = branch.split(' ')[1]
+            clean_branch_list.append(current_branch)
+        else:
+            clean_branch_list.append(branch.strip())
+
+    return [current_branch, clean_branch_list]
+
+
 def checkBranch(path, current_dir):
     """
     Checks the branch number and create a new one that `jit` can work with
     """
     changeDir(path)
     command = 'git branch'
-    branch_list = sp.getoutput(command)
-    if len(branch_list.splitlines()) == 1:
-        createBranch("master")
+    branch_list_remote = sp.getoutput(command)
+    current_branch_remote, clean_branch_list_remote = getBranch(
+        branch_list_remote)
+    os.chdir(current_dir)
+    branch_list_local = sp.getoutput(command)
+    current_branch_local, clean_branch_list_local = getBranch(
+        branch_list_local)
+    if current_branch_remote == current_branch_local:
+        changeDir(path)
+        new_branch = "master"
+        createBranch(new_branch)
         os.chdir(current_dir)
+        return new_branch
+    else:
+        return current_branch_remote
 
 
 def switchBranch(branch, path):
@@ -126,9 +151,9 @@ def setupSharing(share_command):
         print("error: local-remote repository not setup")
     else:
         current_dir = os.getcwd()
-        checkBranch(path, current_dir)
+        branch = checkBranch(path, current_dir)
         try:
-            switchBranch("master", path)
+            switchBranch(branch, path)
             command = f"git {share_command}"
             # Pull or Push based on the argument passed above
             share(current_dir, command)
