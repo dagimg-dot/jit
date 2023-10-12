@@ -69,14 +69,10 @@
 1. **The ownership is dubious.**
 
    - This error happens because we are trying to access a folder outside our file system which is the flash drive.
-   - The solution is to disconnect and connect the flash drive. As simple as that !!
+   - The solution is to disconnect and connect the flash drive. And the other solution is,
 
-2. **The directory is not safe**
-
-   - The reason is the same as the above problem
-   - The solution is written in the git error message
-     ```bash
+   ```bash
      git config --global --add safe.directory <path-to-your-remote-repo> # which is in the USB drive
-     ```
+   ```
 
-3. I think all the other problems can be solved by carefully reading the git error message.
+2. I think all the other problems can be solved by carefully reading the git error message.
