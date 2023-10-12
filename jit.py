@@ -72,6 +72,9 @@ def createBranch(name):
 
 
 def getBranch(branch_list):
+    """
+    Returns the current branch and the list of available branches
+    """
     splitted = branch_list.splitlines()
     current_branch = None
     clean_branch_list = []
