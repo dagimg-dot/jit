@@ -60,7 +60,16 @@
    - You can create a command called `jit` and give it a value `python jit-script/jit.py`
    - Then you can use `npm run jit <arg>` to call the script which makes it easier for you hands.
 
-2. If the above case doesn't work for you, you can configure a bash script too !!.
+2. If the above case doesn't work for you, you can configure a batch script like this on windows.
+
+   ```bat
+   @echo off
+
+   set ARGS=%*
+
+   python jit-scripts/jit.py %ARGS%
+
+   ```
 
 > > ### Common Problems
 
